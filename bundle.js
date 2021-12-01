@@ -17,8 +17,16 @@
 
   // index.js
   var fetchGithubRepo = require_fetchGithubRepo();
-  fetchGithubRepo("sinatra/sinatra", (repoData) => {
-    console.log(repoData);
-    document.write(JSON.stringify(repoData));
+  var inputEl = document.querySelector("#user-input");
+  var buttonEl = document.querySelector("#get-info-button");
+  buttonEl.addEventListener("click", () => {
+    const userInput = inputEl.value;
+    fetchGithubRepo(userInput, (repoData) => {
+      const apiResponseDiv = document.querySelector("#api-response");
+      const forksValue = repoData.forks;
+      const forkElement = document.createElement("p");
+      forkElement.innerText = `Number of forks: ${forksValue}`;
+      apiResponseDiv.append(forkElement);
+    });
   });
 })();
